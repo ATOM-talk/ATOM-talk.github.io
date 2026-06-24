@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Resume of ATOM</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="Home.html" class="title">ATOM</a>
+				<nav>
+					<ul>
+						<li><a href="01Home.html">Home</a></li>
+						<li><a href="02Resume.html" class="active">Resume</a></li>
+						<li><a href="03Portfolio.html">Portfolio</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">The Resume Page</h1>
+							<span class=style="width: 75px; height: 75px;"><img src="resume\pict01.jpg" alt="" /></span>
+							<h2 class="major">基础信息</h2>
+							<p>
+							<span style="margin-right: 160px;">姓名：汤锦文</span>
+							<span style="margin-right: 160px;">出生年月：2000/10</span>学历：本科
+							</p>
+							<h2 class="major">教育经历</h2>
+							<div style="display: flex; justify-content: space-between; width: 100%;font-weight: bold;color: white;">
+ 							   <span>2018/9--2023/6</span>
+							   <span>学校:四川美术学院</span>
+							   <span>专业:建筑学</span>
+							</div>
+							<p>主修课程:艺术表达/构成，建筑设计课程、建造技术、美术学历史/理论、实践/法规课;制图/建模课程(AutoCAD、SketchUp、Rhino、3ds Max、blender 等)，艺术渲染课程等。</p>
+							<h2 class="major">工作经历</h2>
+							<div style="display: flex; justify-content: space-between; width: 100%;font-weight: bold;color: white;">
+ 							   <span>2024/3--2024/9</span>
+							   <span>公司:沛琪(上海)广告有限公司</span>
+							   <span>职位:设计师</span>
+							</div>
+							<p>将创意概念迅速转化为精细的分镜脚本与视觉Demo，确保创意落地的高效性。构建完整的品牌视觉体系，从主视觉（KV）设计到海报、户外广告的延展，以及Logo、VI系统等全套物料设计，均能严谨遵循版本管理规范。利用前沿AI工作流，将品牌策略精准转化为极具视觉冲击力的影像作品，确保项目在视觉表达与交付标准上达成高度统一与高质量的输出。</p>
+							<div style="display: flex; justify-content: space-between; width: 100%;font-weight: bold;color: white;">
+ 							   <span>2025/5--2026/4</span>
+							   <span>公司:成都拾光纪元人工智能科技有限公司</span>
+							   <span>职位:AIGC内容生成</span>
+							</div>
+							<p>数字人视频全链路生产，擅长利用HeyGen、Synthesia等工具打造高拟真形象，并通过语音合成技术精准匹配口播文案。注重导演视角的深层介入：通过精细设计语速、停顿与情绪起伏，赋予数字人真实生命力，告别机械感。通过成熟的矩阵化运营思维，标准化的工作流实现“换文案不换人”的高效产出，为品牌提供高质量、规模化且富有感染力的数字内容解决方案。</p>
+							<h1 class="major"></h1>
+							<h2 class="major">岗位匹配摘要</h2>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>简历分块效果</title>
+    <style>
+        /* 模拟你的深色背景环境 */
+
+        h2.section-title {
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        /* --- 核心代码开始 --- */
+
+        /* 1. 容器样式 (Grid 布局) */
+        .grid-container {
+            display: grid;
+            /* 关键：将宽度分为4等份 */
+            grid-template-columns: repeat(4, 1fr);
+            width: 100%;
+            box-sizing: border-box;
+
+            /* 外边框设置 */
+            border: 1px solid #4a4366; /* 边框颜色要淡一点，不要太刺眼 */
+            background-color: #362F4D; /* 浅紫色 */
+        }
+
+        /* 2. 单个卡片样式 */
+        .grid-item {
+            padding: 30px 20px;
+            position: relative;
+
+            /* 内部分割线技巧：只给右边和下边加边框 */
+            border-right: 1px solid #4a4366;
+            border-bottom: 1px solid #4a4366;
+        }
+
+        /* 去除每行最后一个元素的右边框，防止出现双重边框 */
+        .grid-item:nth-child(4n) {
+            border-right: none;
+        }
+
+        /* 去除最后一行所有元素的下边框 */
+        /* 如果你只有4个内容，可以省略这一步，或者用 nth-last-child(-n+4) */
+        .grid-item:nth-last-child(-n+4) {
+            border-bottom: none;
+        }
+
+        /* 3. 序号样式 (01, 02...) */
+        .item-number {
+            display: block;
+            font-size: 14px;
+            color: #ffffff; /* 白色序号 */
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-family: monospace; /* 等宽字体看起来更像代码风格 */
+        }
+
+        /* 4. 文本内容样式 */
+        .item-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #e0e0e0; /* 浅灰文字 */
+        }
+
+        /* 响应式适配：屏幕变窄时变为2列或1列 */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            /* 重置边框逻辑以适应2列 */
+            .grid-item:nth-child(4n) { border-right: 1px solid #4a4366; }
+            .grid-item:nth-child(2n) { border-right: none; }
+        }
+        @media (max-width: 480px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            .grid-item { border-right: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 分块区域 -->
+    <div class="grid-container">
+        <!-- 第1块 -->
+        <div class="grid-item">
+            <span class="item-number">定位：</span>
+            <div class="item-content">
+                AI影视 / AIGC内容制作 / AI影像方向，重点匹配内容生产与影像创作岗位。
+            </div>
+        </div>
+
+        <!-- 第2块 -->
+        <div class="grid-item">
+            <span class="item-number">能力：</span>
+            <div class="item-content">
+                从小说原文直达最终成片，能覆盖故事拆解、角色设定、分镜、生成、剪辑与交付。
+            </div>
+        </div>
+
+        <!-- 第3块 -->
+        <div class="grid-item">
+            <span class="item-number">证据：</span>
+            <div class="item-content">
+                作品集覆盖 AI 真人剧、3D/2D 漫剧、游戏 CG、广告影像与 LingDot 工具实践。
+            </div>
+        </div>
+
+        <!-- 第4块 -->
+        <div class="grid-item">
+            <span class="item-number">风格：</span>
+            <div class="item-content">
+                专业稳妥表达，不虚构播放量和商业数据，用作品与流程证明能力。
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

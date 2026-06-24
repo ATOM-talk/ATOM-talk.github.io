@@ -1,0 +1,396 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>10-02beautiful-ghost </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+    <style>
+        /* --- 基础重置与变量 (统一风格) --- */
+        :root {
+            --bg-color: #1e1b2e;
+            --card-bg: #251f33;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --accent-color: #9d72ff;
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+            --gradient-line: linear-gradient(90deg, #5e4b9e 0%, #ff7eb3 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 页面标题区 */
+        .page-header {
+            margin-bottom: 40px;
+            display: flex;
+            align-items: baseline;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+
+        .page-desc {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* --- 渐变分割线 (采用 6.html 风格) --- */
+        .divider-line {
+            height: 2px;
+            background: var(--gradient-line);
+            width: 100%;
+            margin: 20px 0 40px 0;
+            opacity: 0.8;
+        }
+
+        /* --- 播放器区域 --- */
+        .player-wrapper {
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            /* 保持16:9比例 */
+            background: #000;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .subtitles-overlay {
+            position: absolute;
+            bottom: 20%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .sub-en {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .sub-cn {
+            font-size: 1.2rem;
+            color: #ddd;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            display: block;
+        }
+
+        .controls-bar {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(10px);
+        }
+
+        .play-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .play-btn-icon {
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid #fff;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 4px;
+            background: #444;
+            margin: 0 20px;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* --- 剧集列表 --- */
+        .episodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .episode-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
+        }
+
+        .episode-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: rgba(94, 75, 158, 0.5);
+        }
+
+        .episode-card.active {
+            border-color: var(--accent-color);
+            background: rgba(157, 114, 255, 0.1);
+            box-shadow: 0 0 15px rgba(157, 114, 255, 0.1);
+        }
+
+        .ep-number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .ep-status {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .ep-action {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- 响应式调整 --- */
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .episodes-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sub-en {
+                font-size: 1.1rem;
+            }
+
+            .sub-cn {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="is-preload">
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html" class="title">ATOM</a>
+        <nav>
+            <ul>
+                <li><a href="01Home.html">Home</a></li>
+                <li><a href="02Resume.html">Generic</a></li>
+                <li><a href="03Portfolio.html" class="active">Portfolio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+        <!-- Main -->
+        <section id="main" class="wrapper">
+            <div class="inner">
+                <div class="container">
+                    <!-- 头部信息 -->
+                    <header class="page-header">
+                        <h1 class="page-title">全球冰封</h1>
+                        <span class="page-desc">末日题材 2/3D 漫剧系列化</span>
+                    </header>
+
+                    <!-- 装饰线条 -->
+                    <div class="divider-line"></div>
+	<div id="main">            </div>
+
+
+                    <!-- 播放器主体 -->
+                    <div class="player-wrapper">
+                        <div class="video-container">
+                            <!-- 修改点：使用 video 标签 -->
+                            <video id="main-video" src="" poster="" controls>
+                                您的浏览器不支持视频播放
+                            </video>
+
+                        </div>
+                    </div>
+
+                    <!-- 剧集选择列表 -->
+                    <div class="episodes-grid">
+                        <!-- 修改点：添加 data-id 属性 -->
+                        <div class="episode-card" data-id="01">
+                            <div>
+                                <div class="ep-number">第 01 集</div>
+                                <div class="ep-status">在线播放</div>
+                            </div>
+                            <div class="ep-action">点击播放 &bull;</div>
+                        </div>
+                        <div class="episode-card" data-id="02">
+                            <div>
+                                <div class="ep-number">第 02 集</div>
+                                <div class="ep-status">在线播放</div>
+                            </div>
+                            <div class="ep-action">点击播放 &bull;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer" class="wrapper alt">
+        <div class="inner">
+            <ul class="menu">
+                <li>&copy; Untitled. All rights reserved.</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <!-- 新增：剧集数据和交互逻辑 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. 定义剧集数据
+            const episodesData = [
+                {
+                    id: 01,
+                    title: "第 01 集",
+                    status: "在线播放",
+                    videoSrc: "video/LIVE ACTION/wolfless-queen-wolves/full-01.mp4", // ⚠️ 请替换为你的真实视频地址
+                    poster: ""
+                },
+                {
+                    id: 02,
+                    title: "第 02 集",
+                    status: "在线播放",
+                    videoSrc: "video/LIVE ACTION/wolfless-queen-wolves/full-02.mp4", // ⚠️ 请替换为你的真实视频地址
+                },
+                {
+                    id: 03,
+                    title: "第 03 集",
+                    status: "在线播放",
+                    videoSrc: "video/LIVE ACTION/wolfless-queen-wolves/full-03.mp4", // ⚠️ 请替换为你的真实视频地址
+                },
+
+            ];
+
+            // 2. 获取页面元素
+            const videoPlayer = document.getElementById('main-video');
+            const episodeCards = document.querySelectorAll('.episode-card');
+
+            // 3. 加载剧集的函数
+            function loadEpisode(id) {
+                const episode = episodesData.find(ep => ep.id === id);
+                if (!episode) return;
+
+                // 更新视频源和封面
+                videoPlayer.src = episode.videoSrc;
+                videoPlayer.poster = episode.poster;
+                videoPlayer.play();
+
+                // 更新选集列表的样式和文字
+                episodeCards.forEach(card => {
+                    const cardId = parseInt(card.getAttribute('data-id'));
+                    if (cardId === episode.id) {
+                        card.classList.add('active');
+                        card.querySelector('.ep-status').textContent = "正在观看";
+                        card.querySelector('.ep-action').innerHTML = "播放中 &bull;";
+                    } else {
+                        card.classList.remove('active');
+                        const otherEp = episodesData.find(e => e.id === cardId);
+                        if (otherEp) {
+                            card.querySelector('.ep-status').textContent = otherEp.status;
+                            card.querySelector('.ep-action').innerHTML = "点击播放 &bull;";
+                        }
+                    }
+                });
+            }
+
+            // 4. 为每个选集卡片添加点击事件
+            episodeCards.forEach(card => {
+                card.addEventListener('click', function () {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    loadEpisode(id);
+                });
+            });
+
+            // 5. 页面加载完成后，默认加载第一集
+            if (episodesData.length > 0) {
+                loadEpisode(episodesData[0].id);
+            }
+        });
+    </script>
+</body>
+
+</html>

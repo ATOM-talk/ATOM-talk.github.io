@@ -1,0 +1,877 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Portfolio by ATOM </title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		
+		<style>
+			/* --- 开启全局平滑滚动 --- */
+			html {
+				scroll-behavior: smooth;
+			}
+
+			/* --- 自定义胶囊导航栏样式 --- */
+			.capsule-nav-container {
+				display: flex;
+				align-items: center;
+				background-color: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				border-radius: 999px;
+				padding: 4px;
+				backdrop-filter: blur(10px);
+				width: 100%;
+				max-width: 100%;
+				box-sizing: border-box;
+				margin-bottom: 30px;
+				position: sticky; /* 导航栏吸顶 */
+				top: 20px;
+				z-index: 100;
+			}
+			.nav-link {
+				text-decoration: none;
+				display: flex;
+				flex: 1;
+				justify-content: center;
+				position: relative;
+				padding: 12px 0;
+				border-radius: 999px;
+				transition: all 0.3s ease;
+				cursor: pointer;
+			}
+			.nav-link:hover {
+				background-color: rgba(255, 255, 255, 0.1);
+			}
+			.nav-link.active {
+				background-color: rgba(255, 255, 255, 0.15);
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+			}
+			.nav-item {
+				text-align: center;
+				white-space: nowrap;
+				min-width: 80px;
+			}
+			.nav-title-en {
+				display: block;
+				font-size: 10px;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				color: rgba(255, 255, 255, 0.5);
+				margin-bottom: 4px;
+				font-weight: 600;
+				transition: color 0.3s;
+			}
+			.nav-title-cn {
+				display: block;
+				font-size: 16px;
+				font-weight: bold;
+				color: rgba(255, 255, 255, 0.8);
+				transition: color 0.3s;
+			}
+			.nav-link.active .nav-title-en { color: #dcbdfc; }
+			.nav-link.active .nav-title-cn { color: #ffffff; }
+			@media (max-width: 768px) {
+				.capsule-nav-container {
+					overflow-x: auto;
+					justify-content: flex-start;
+				}
+				.nav-link {
+					flex: 0 0 auto;
+					padding: 10px 20px;
+				}
+			}
+
+			/* --- 页面内容区块样式 --- */
+			.divider-line {
+				height: 2px;
+				background: linear-gradient(90deg, #5e4b9e 0%, #ff7eb3 100%);
+				width: 100%;
+				margin-top: 20px;
+				margin-bottom: 40px;
+				opacity: 0.8;
+			}
+			.page-header {
+				margin-bottom: 40px;
+				display: flex;
+				align-items: baseline;
+				gap: 20px;
+				flex-wrap: wrap;
+			}
+			.page-title {
+				font-size: 32px;
+				font-weight: 700;
+				display: flex;
+				align-items: center;
+			}
+			.page-title::before {
+				content: "";
+				display: inline-block;
+				width: 4px;
+				height: 24px;
+				background-color: #5e4b9e;
+				margin-right: 15px;
+			}
+			.page-desc {
+				color: #a0a0a0;
+				font-size: 16px;
+				max-width: 600px;
+			}
+			.grid-container {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+				gap: 30px;
+			}
+			.card {
+				background-color: #251f33;
+				border-radius: 12px;
+				overflow: hidden;
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+				display: flex;
+				flex-direction: column;
+				border: 1px solid rgba(255,255,255,0.05);
+			}
+			.card:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+				border-color: rgba(94, 75, 158, 0.5);
+			}
+			.card-image-wrapper {
+				position: relative;
+				width: 100%;
+				padding-top: 140%;
+				background-color: #000;
+				overflow: hidden;
+			}
+			.card-image {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.5s ease;
+			}
+			.card:hover .card-image {
+				transform: scale(1.05);
+			}
+			.card-overlay-tags {
+				position: absolute;
+				top: 15px;
+				left: 15px;
+				right: 15px;
+				display: flex;
+				justify-content: space-between;
+				z-index: 2;
+			}
+			.tag-pill {
+				background: rgba(0, 0, 0, 0.6);
+				backdrop-filter: blur(4px);
+				padding: 4px 10px;
+				border-radius: 4px;
+				font-size: 12px;
+				font-weight: 600;
+				color: #ddd;
+				border: 1px solid rgba(255,255,255,0.1);
+			}
+			.card-title-overlay {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				padding: 60px 20px 20px;
+				background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+				z-index: 2;
+			}
+			.card-title-overlay h3 {
+				font-size: 24px;
+				font-weight: 700;
+				line-height: 1.2;
+				text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+			}
+			.card-content {
+				padding: 25px;
+				flex-grow: 1;
+				display: flex;
+				flex-direction: column;
+			}
+			.case-meta {
+				display: flex;
+				justify-content: space-between;
+				font-size: 11px;
+				color: #666;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+				margin-bottom: 15px;
+				border-bottom: 1px solid rgba(255,255,255,0.1);
+				padding-bottom: 10px;
+			}
+			.card-desc {
+				font-size: 14px;
+				color: #bbb;
+				margin-bottom: 20px;
+				flex-grow: 1;
+			}
+			.tags-group {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				margin-bottom: 25px;
+			}
+			.tag-small {
+				font-size: 12px;
+				color: #888;
+				border: 1px solid #444;
+				padding: 4px 10px;
+				border-radius: 20px;
+			}
+			.detail-link {
+				display: inline-flex;
+				align-items: center;
+				color: #d1c4e9;
+				font-weight: 600;
+				font-size: 14px;
+				transition: color 0.3s;
+			}
+			.detail-link:hover {
+				color: #fff;
+			}
+			.detail-link span {
+				margin-left: 5px;
+				transition: transform 0.3s;
+			}
+			.detail-link:hover span {
+				transform: translateX(5px);
+			}
+			@media (max-width: 768px) {
+				.page-header {
+					flex-direction: column;
+					gap: 10px;
+				}
+			}
+			/* --- 悬停播放视频卡片样式 --- */
+.hover-video-card {
+    position: relative;
+    overflow: hidden; /* 确保视频不会溢出卡片边界 */
+}
+
+.hover-video-card video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 让视频铺满整个容器 */
+    opacity: 0;        /* 默认隐藏视频 */
+    transition: opacity 0.3s ease; /* 添加淡入淡出效果 */
+    z-index: 1;        /* 确保视频在图片之上 */
+}
+
+.hover-video-card img {
+    display: block;
+    width: 100%;
+    transition: opacity 0.3s ease; /* 图片也添加过渡效果 */
+}
+
+/* 鼠标悬停时的状态 */
+.hover-video-card:hover video {
+    opacity: 1; /* 显示视频 */
+}
+
+.hover-video-card:hover img {
+    opacity: 0; /* 隐藏图片 */
+}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">ATOM</a>
+				<nav>
+					<ul>
+						<li><a href="01Home.html">Home</a></li>
+						<li><a href="02Resume.html">Resume</a></li>
+						<li><a href="03Portfolio.html" class="active">Portfolio</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							
+							<!-- 胶囊导航栏组件 -->
+							<nav class="capsule-nav-container">
+								<a href="#section-animated" class="nav-link active">
+									<div class="nav-item">
+										<span class="nav-title-en">Animated Art Short</span>
+										<span class="nav-title-cn">独立动画短片</span>
+									</div>
+								</a>
+								<a href="#section-live" class="nav-link">
+									<div class="nav-item">
+										<span class="nav-title-en">Live Action</span>
+										<span class="nav-title-cn">AI 真人剧</span>
+									</div>
+								</a>
+								<a href="#section-comic" class="nav-link">
+									<div class="nav-item">
+										<span class="nav-title-en">2/3D Comic Drama</span>
+										<span class="nav-title-cn">2/3D 漫剧</span>
+									</div>
+								</a>
+								<a href="#section-commercial" class="nav-link">
+									<div class="nav-item">
+										<span class="nav-title-en">Commercial Film</span>
+										<span class="nav-title-cn">广告影像</span>
+									</div>
+								</a>
+								<a href="#section-art" class="nav-link">
+									<div class="nav-item">
+										<span class="nav-title-en">Art Short Film</span>
+										<span class="nav-title-cn">艺术微电影</span>
+									</div>
+								</a>
+							</nav>
+
+						<!-- 板块 1: 独立动画短片 -->
+							<div id="section-animated">
+							<!-- 渐变分割线 -->
+								<div class="divider-line"></div>
+							<!-- 页面标题与描述 -->
+								<div class="page-header">
+									<h1 class="page-title">Animated Art Short | 独立动画短片</h1>
+									<p class="page-desc">面向短剧节奏、角色钩子与真人质感的 AI 影像表达。</p>
+								</div>
+							<!-- 作品展示网格 -->
+								<div class="grid-container">
+
+<!-- Card 1 -->
+<article class="card">
+    <!-- 1. 将图片包装在一个新的容器里，并添加 hover-video-card 类 -->
+    <div class="card-image-wrapper hover-video-card">
+        
+        <!-- 2. 视频标签：替换 src 为你自己的视频路径 -->
+        <video src="video/Animated Art Short/The Jinxed Thief/full-01.mp4" muted loop playsinline></video>
+        
+        <!-- 3. 封面图：替换 src 为你自己的图片路径 -->
+        <img src="video/Animated Art Short/The Jinxed Thief/pic-1.jpg" alt="3D Comic Project One" class="card-image">
+        
+        <!-- 4. 保留原有的覆盖层内容 -->
+        <div class="card-overlay-tags">
+            <span class="tag-pill">动画短片</span>
+            <span class="tag-pill">1 CLIPS</span>
+        </div>
+        <div class="card-title-overlay"><h3>The Jinxed Thief<br>Project One</h3></div>
+    </div>
+    
+    <!-- 卡片下方的文字描述部分保持不变 -->
+    <div class="card-content">
+        <div class="case-meta"><span>CASE</span><span>LIVE ACTION-01</span></div>
+        <p class="card-desc">搞笑皮克斯风格短片，用 AI 影像把控剧情节奏、情绪张力与信息的高密度表达</p>
+        <div class="tags-group">
+            <span class="tag-small">动画短片</span>
+            <span class="tag-small">无脑搞笑</span>
+            <span class="tag-small">情绪冲突</span>
+        </div>
+        <a href="10-04The Jinxed Thief#main" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+    </div>
+</article>
+									</article>
+
+								<!-- Card 2 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/3d2a2a/FFF?text=Animated+2" alt="Animated 2" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">AI 动画短片</span>
+												<span class="tag-pill">1 CLIP</span>
+											</div>
+											<div class="card-title-overlay"><h3>Placeholder Title</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>PLACEHOLDER</span></div>
+											<p class="card-desc">这里是占位符描述文本，用于展示排版效果。</p>
+											<div class="tags-group">
+												<span class="tag-small">标签一</span>
+												<span class="tag-small">标签二</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+
+								<!-- Card 3 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/3d2a2a/FFF?text=Animated+2" alt="Animated 2" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">AI 动画短片</span>
+												<span class="tag-pill">1 CLIP</span>
+											</div>
+											<div class="card-title-overlay"><h3>Placeholder Title</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>PLACEHOLDER</span></div>
+											<p class="card-desc">这里是占位符描述文本，用于展示排版效果。</p>
+											<div class="tags-group">
+												<span class="tag-small">标签一</span>
+												<span class="tag-small">标签二</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+
+							<!-- 作品展示网格结束 -->
+								</div>
+							</div>
+
+
+						<!-- 板块 2: AI 真人剧 -->
+							<div id="section-live">
+							<!-- 渐变分割线 -->
+								<div class="divider-line"></div>
+							<!-- 页面标题与描述 -->
+								<div class="page-header">
+									<h1 class="page-title">LIVE ACTION | AI 真人剧</h1>
+									<p class="page-desc">面向短剧节奏、角色钩子与真人质感的 AI 影像表达。</p>
+								</div>
+							<!-- 作品展示网格 -->
+								<div class="grid-container">
+
+
+<!-- Card 1 -->
+<article class="card">
+    <!-- 1. 将图片包装在一个新的容器里，并添加 hover-video-card 类 -->
+    <div class="card-image-wrapper hover-video-card">
+        
+        <!-- 2. 视频标签：替换 src 为你自己的视频路径 -->
+        <video src="video/LIVE ACTION/wolfless-queen-wolves/full-01.mp4" muted loop playsinline></video>
+        
+        <!-- 3. 封面图：替换 src 为你自己的图片路径 -->
+        <img src="video/LIVE ACTION/wolfless-queen-wolves/pic-1.jpg" alt="3D Comic Project One" class="card-image">
+        
+        <!-- 4. 保留原有的覆盖层内容 -->
+        <div class="card-overlay-tags">
+            <span class="tag-pill">AI 真人剧</span>
+            <span class="tag-pill">46 CLIPS</span>
+        </div>
+        <div class="card-title-overlay"><h3>wolfless-queen-wolves<br>Project One</h3></div>
+    </div>
+    
+    <!-- 卡片下方的文字描述部分保持不变 -->
+    <div class="card-content">
+        <div class="case-meta"><span>CASE</span><span>LIVE ACTION-01</span></div>
+        <p class="card-desc">狼人题材海外真人短剧，用 AI 影像完成角色关系、情绪张力与短剧节奏的高密度表达</p>
+        <div class="tags-group">
+            <span class="tag-small">海外短剧</span>
+            <span class="tag-small">真人质感</span>
+            <span class="tag-small">狼人题材</span>
+            <span class="tag-small">情绪冲突</span>
+        </div>
+        <a href="10-03wolfless-queen-wolves.html#main" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+    </div>
+</article>
+
+
+								<!-- Card 2 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/1a2a3d/FFF?text=Live+Action+2" alt="Live Action 2" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">AI 真人剧</span>
+												<span class="tag-pill">20 CLIPS</span>
+											</div>
+											<div class="card-title-overlay"><h3>Live Action<br>Project Two</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>LIVE-ACTION-02</span></div>
+											<p class="card-desc">这里是真人剧项目的描述文本。</p>
+											<div class="tags-group">
+												<span class="tag-small">剧情</span>
+												<span class="tag-small">AI生成</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+
+								<!-- Card 3 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/1a2a3d/FFF?text=Live+Action+2" alt="Live Action 2" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">AI 真人剧</span>
+												<span class="tag-pill">20 CLIPS</span>
+											</div>
+											<div class="card-title-overlay"><h3>Live Action<br>Project Two</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>LIVE-ACTION-02</span></div>
+											<p class="card-desc">这里是真人剧项目的描述文本。</p>
+											<div class="tags-group">
+												<span class="tag-small">剧情</span>
+												<span class="tag-small">AI生成</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+							<!-- 作品展示网格结束 -->
+								</div>
+							</div>
+
+						<!-- 板块 3: 2/3D 漫剧 -->
+							<div id="section-comic">
+							<!-- 渐变分割线 -->
+								<div class="divider-line"></div>
+							<!-- 页面标题与描述 -->
+								<div class="page-header">
+									<h1 class="page-title">2/3D Comic Drama | 2/3D 漫剧</h1>
+									<p class="page-desc">面向短剧节奏、角色钩子与真人质感的 AI 影像表达。</p>
+								</div>
+							<!-- 作品展示网格 -->
+								<div class="grid-container">
+
+<!-- Card 1 -->
+<article class="card">
+    <!-- 1. 将图片包装在一个新的容器里，并添加 hover-video-card 类 -->
+    <div class="card-image-wrapper hover-video-card">
+        
+        <!-- 2. 视频标签：替换 src 为你自己的视频路径 -->
+        <video src="video/2-3D cartoon/global-freeze/full-01.mp4" muted loop playsinline></video>
+        
+        <!-- 3. 封面图：替换 src 为你自己的图片路径 -->
+        <img src="video/2-3D cartoon/global-freeze/pic-1.jpg" alt="3D Comic Project One" class="card-image">
+        
+        <!-- 4. 保留原有的覆盖层内容 -->
+        <div class="card-overlay-tags">
+            <span class="tag-pill">3D 漫剧</span>
+            <span class="tag-pill">40 CLIPS</span>
+        </div>
+        <div class="card-title-overlay"><h3>全球冰封<br>Project One</h3></div>
+    </div>
+    
+    <!-- 卡片下方的文字描述部分保持不变 -->
+    <div class="card-content">
+        <div class="case-meta"><span>CASE</span><span>COMIC-3D-01</span></div>
+        <p class="card-desc">末日冰封题材 3D 漫剧，用横屏大场景、灾难氛围和连续镜头构建强类型视觉世界。</p>
+        <div class="tags-group">
+            <span class="tag-small">3D漫剧</span>
+            <span class="tag-small">末日系列</span>
+        </div>
+        <a href="10-01global-freeze.html#main" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+    </div>
+</article>
+
+
+<!-- Card 2 -->
+<article class="card">
+    <!-- 1. 将图片包装在一个新的容器里，并添加 hover-video-card 类 -->
+    <div class="card-image-wrapper hover-video-card">
+        
+        <!-- 2. 视频标签：替换 src 为你自己的视频路径 -->
+        <video src="video/2-3D cartoon/beautiful-ghost/full-01.mp4" muted loop playsinline></video>
+        
+        <!-- 3. 封面图：替换 src 为你自己的图片路径 -->
+        <img src="video/2-3D cartoon/beautiful-ghost/pic-1.jpg" alt="3D Comic Project One" class="card-image">
+        
+        <!-- 4. 保留原有的覆盖层内容 -->
+        <div class="card-overlay-tags">
+            <span class="tag-pill">2D 漫剧</span>
+            <span class="tag-pill">30 CLIPS</span>
+        </div>
+        <div class="card-title-overlay"><h3>女鬼太漂亮，实在没忍住<br>Project Two</h3></div>
+    </div>
+    
+    <!-- 卡片下方的文字描述部分保持不变 -->
+    <div class="card-content">
+        <div class="case-meta"><span>CASE</span><span>COMIC-2D-01</span></div>
+        <p class="card-desc">2D 漫剧方向的高情绪片段，强调人物吸引力、漫画叙事节奏和风格化镜头表达。</p>
+        <div class="tags-group">
+            <span class="tag-small">2D漫剧</span>
+            <span class="tag-small">情绪片段</span>
+        </div>
+        <a href="10-02beautiful-ghost#main" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+    </div>
+</article>
+
+
+								<!-- Card 3 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/2a3d1b/FFF?text=Comic+1" alt="Comic 1" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">3D 漫剧</span>
+												<span class="tag-pill">10 CLIPS</span>
+											</div>
+											<div class="card-title-overlay"><h3>3D Comic<br>Project One</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>COMIC-3D-01</span></div>
+											<p class="card-desc">这里是3D漫剧项目的描述文本。</p>
+											<div class="tags-group">
+												<span class="tag-small">3D</span>
+												<span class="tag-small">漫剧</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+							<!-- 作品展示网格结束 -->
+								</div>
+							</div>
+
+						<!-- 板块 4: 广告影像 -->
+							<div id="section-commercial">
+							<!-- 渐变分割线 -->
+								<div class="divider-line"></div>
+							<!-- 页面标题与描述 -->
+								<div class="page-header">
+									<h1 class="page-title">Commercial Film | 广告影像</h1>
+									<p class="page-desc">面向短剧节奏、角色钩子与真人质感的 AI 影像表达。</p>
+								</div>
+							<!-- 作品展示网格 -->
+								<div class="grid-container">
+
+								<!-- Card 1 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/3d3a1b/FFF?text=Commercial+1" alt="Commercial 1" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">商业广告</span>
+												<span class="tag-pill">1 CLIP</span>
+											</div>
+											<div class="card-title-overlay"><h3>Brand Commercial<br>Project</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>COMMERCIAL-01</span></div>
+											<p class="card-desc">这里是商业广告项目的描述文本，展示 AI 在商业影像中的落地能力。</p>
+											<div class="tags-group">
+												<span class="tag-small">商业</span>
+												<span class="tag-small">广告</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+
+								<!-- Card 2 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/3d3a1b/FFF?text=Commercial+1" alt="Commercial 1" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">商业广告</span>
+												<span class="tag-pill">1 CLIP</span>
+											</div>
+											<div class="card-title-overlay"><h3>Brand Commercial<br>Project</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>COMMERCIAL-01</span></div>
+											<p class="card-desc">这里是商业广告项目的描述文本，展示 AI 在商业影像中的落地能力。</p>
+											<div class="tags-group">
+												<span class="tag-small">商业</span>
+												<span class="tag-small">广告</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+
+								<!-- Card 3 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/3d3a1b/FFF?text=Commercial+1" alt="Commercial 1" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">商业广告</span>
+												<span class="tag-pill">1 CLIP</span>
+											</div>
+											<div class="card-title-overlay"><h3>Brand Commercial<br>Project</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>COMMERCIAL-01</span></div>
+											<p class="card-desc">这里是商业广告项目的描述文本，展示 AI 在商业影像中的落地能力。</p>
+											<div class="tags-group">
+												<span class="tag-small">商业</span>
+												<span class="tag-small">广告</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+
+							<!-- 作品展示网格结束 -->
+
+								</div>
+							</div>
+
+						<!-- 板块 5: 艺术微电影 -->
+							<div id="section-art">
+							<!-- 渐变分割线 -->
+								<div class="divider-line"></div>
+							<!-- 页面标题与描述 -->
+								<div class="page-header">
+									<h1 class="page-title">Art Short Film | 艺术微电影</h1>
+									<p class="page-desc">探索 AI 影像的边界，用算法重构视觉语言与情绪表达。</p>
+								</div>
+							<!-- 作品展示网格 -->
+								<div class="grid-container">
+
+								<!-- Card 1 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/1b2a3d/FFF?text=Art+Film+1" alt="Art Film 1" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">艺术短片</span>
+												<span class="tag-pill">1 CLIP</span>
+											</div>
+											<div class="card-title-overlay"><h3>Digital Dream<br>Sequence</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>ART-FILM-01</span></div>
+											<p class="card-desc">这里是艺术微电影的描述文本，强调视觉实验与概念表达。</p>
+											<div class="tags-group">
+												<span class="tag-small">艺术</span>
+												<span class="tag-small">实验</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+
+								<!-- Card 2 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/1b2a3d/FFF?text=Art+Film+1" alt="Art Film 1" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">艺术短片</span>
+												<span class="tag-pill">1 CLIP</span>
+											</div>
+											<div class="card-title-overlay"><h3>Digital Dream<br>Sequence</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>ART-FILM-01</span></div>
+											<p class="card-desc">这里是艺术微电影的描述文本，强调视觉实验与概念表达。</p>
+											<div class="tags-group">
+												<span class="tag-small">艺术</span>
+												<span class="tag-small">实验</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+
+								<!-- Card 3 -->
+									<article class="card">
+										<div class="card-image-wrapper">
+											<img src="https://placehold.co/600x840/1b2a3d/FFF?text=Art+Film+1" alt="Art Film 1" class="card-image">
+											<div class="card-overlay-tags">
+												<span class="tag-pill">艺术短片</span>
+												<span class="tag-pill">1 CLIP</span>
+											</div>
+											<div class="card-title-overlay"><h3>Digital Dream<br>Sequence</h3></div>
+										</div>
+										<div class="card-content">
+											<div class="case-meta"><span>CASE</span><span>ART-FILM-01</span></div>
+											<p class="card-desc">这里是艺术微电影的描述文本，强调视觉实验与概念表达。</p>
+											<div class="tags-group">
+												<span class="tag-small">艺术</span>
+												<span class="tag-small">实验</span>
+											</div>
+											<a href="#" class="detail-link">查看作品详情 <span>&rarr;</span></a>
+										</div>
+									</article>
+
+							<!-- 作品展示网格结束 -->
+
+								</div>
+							</div>
+
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+			<!-- 核心交互脚本 -->
+			<script>
+				$(function() {
+					// 1. 点击导航平滑滚动
+					$('.nav-link').on('click', function(e) {
+						e.preventDefault();
+						var target = $(this).attr('href');
+						if ($(target).length) {
+							// 计算偏移量，避免被吸顶导航遮挡
+							var offset = $('.capsule-nav-container').outerHeight() + 30; 
+							$('html, body').animate({
+								scrollTop: $(target).offset().top - offset
+							}, 600, 'swing'); // 600ms 的柔和动画
+						}
+					});
+
+					// 2. 滚动时自动高亮当前板块
+					var sections = $('.capsule-nav-container .nav-link');
+					var contentSections = [];
+
+					// 缓存板块 DOM
+					sections.each(function() {
+						var id = $(this).attr('href');
+						if ($(id).length) contentSections.push($(id));
+					});
+
+					$(window).on('scroll', function() {
+						var scrollPos = $(window).scrollTop() + 150; // 提前 150px 触发高亮，体验更自然
+
+						for (var i = contentSections.length - 1; i >= 0; i--) {
+							var section = contentSections[i];
+							if (section.offset().top <= scrollPos) {
+								sections.removeClass('active');
+								sections.filter('[href="#' + section.attr('id') + '"]').addClass('active');
+								break;
+							}
+						}
+					});
+
+				});
+			</script>
+<script>
+    // 找到所有带有 hover-video-card 类的元素
+    const videoCards = document.querySelectorAll('.hover-video-card');
+
+    videoCards.forEach(card => {
+        const video = card.querySelector('video');
+
+        // 鼠标移入：播放视频
+        card.addEventListener('mouseenter', () => {
+            video.play().catch(error => {
+                console.log("自动播放被浏览器阻止:", error);
+            });
+        });
+
+        // 鼠标移出：暂停视频并重置到开头
+        card.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0; 
+        });
+    });
+</script>
+	</body>
+</html>
